@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Details Form</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+    
+      .container {
+        max-width: 70%;
+        margin: 0 auto;
+        padding: 40px;
+        background-color: #ffffff;
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+      }
+    
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+    
+      input[type="text"],
+      input[type="date"],
+      input[type="tel"],
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+    
+      select {
+        height: 40px;
+      }
+    
+      .button-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+    
+      .submit-button {
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+    
+      .submit-button:hover {
+        background-color: #0056b3;
+      }
+    
+      .image-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+    
+      img {
+        max-width: 200px;
+      }
+    </style>
+</head>
+<body>
+    
+    <form>
+      <h2 style="text-align: center;">Guest Details Form</h2>
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+
+      <label for="checkin">Check-in Date:</label>
+      <input type="date" id="checkin" name="checkin" placeholder="Select your check-in date" required>
+
+      <label for="checkout">Check-out Date:</label>
+      <input type="date" id="checkout" name="checkout" placeholder="Select your check-out date" required>
+
+      <label for="roomtype">Room Type:</label>
+      <select id="roomtype" name="roomtype">
+          <option value="ac">A/C</option>
+          <option value="nonac">Non A/C</option>
+      </select>
+
+      <label for="bedtype">Bed Type:</label>
+      <select id="bedtype" name="bedtype">
+          <option value="single">Single</option>
+          <option value="double">Double</option>
+      </select>
+
+      <label for="purpose">Purpose of Visit:</label>
+      <input type="text" id="purpose" name="purpose" placeholder="Enter the purpose of your visit" required>
+
+      
+      
+        <button type="button" onclick="addDataToExcel()">Add Data to Excel</button>
+    </form>
+
+    <script>
+        function addDataToExcel() {
+            
+            var phone = document.getElementById("phone").value;
+            var checkin = document.getElementById("checkin").value;
+            var checkout = document.getElementById("checkout").value;
+            var roomtype = document.getElementById("roomtype").value;
+            var bedtype = document.getElementById("bedtype").value;
+            var purpose = document.getElementById("purpose").value;
+
+            
+            var newData = [phone, checkin, checkout, roomtype, bedtype, purpose];
+
+            
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var data = new Uint8Array(e.target.result);
+                var workbook = XLSX.read(data, { type: 'array' });
+
+                
+                var sheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[sheetName];
+
+                
+                var nextRow = XLSX.utils.sheet_add_json(worksheet, [newData], { skipHeader: true });
+
+              
+                var updatedData = XLSX.write(workbook, { bookType: 'xlsx', type: 'blob' });
+
+                
+                saveBlob(updatedData, 'data.xlsx');
+            };
+
+            
+            reader.readAsArrayBuffer(new Blob([], { type: 'application/octet-stream' }));
+        }
+
+        
+        function saveBlob(blob, filename) {
+            var a = document.createElement('a');
+            a.href = window.URL.createObjectURL(blob);
+            a.download = filename;
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html>

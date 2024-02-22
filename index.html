@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to MSN Hotel</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .hotel-name {
+    font-size: 36px;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+  .instruction {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+    padding: 0;
+  }
+
+  .scan-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .scan-button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1 class="hotel-name">Welcome to MSN Hotel</h1>
+    <p class="instruction">To book your hotel, please scan your identity card here:</p>
+  </div>
+  <a class="scan-button" href="http://localhost:8501">Scan Identity Card</a>
+</body>
+</html>
